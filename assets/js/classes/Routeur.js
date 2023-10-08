@@ -8,7 +8,7 @@ export default class Routeur{
 
     init(){
         //écouter au clic de la liste, on change l'url avec # et on appelle gererURL
-
+        
         //écouter l'événement popstate quan ça se déclence on appelle gererURL
     }
 

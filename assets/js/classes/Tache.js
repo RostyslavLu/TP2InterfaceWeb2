@@ -1,4 +1,4 @@
-import GestionnaireTaches from "./GestionnaireTaches";
+import GestionnaireTaches from "./GestionnaireTaches.js";
 export default class Tache{
 
     #id;
@@ -16,15 +16,34 @@ export default class Tache{
         this.#description = description;
         this.#importance = importance;
         this.#listeHTML = GestionnaireTaches.instance.liste;
+
         this.#templateTache = document.querySelector("[data-js-task-template]");
         this.#templateDetail = document.querySelector("[data-js-task-detail-template]");
         this.#elementHTML;
+        
     }
 
+    
+
     injecterHTML(){
+
         //cloner le content de #templateTache
+        const clone = this.#templateTache.content.cloneNode(true);
+
         //modifier le contenu avec replace all
+        const tacheContent = clone.querySelector("[data-js-task]");
+        const elP = tacheContent.querySelector("p");
+        const elTache = elP.querySelector("[data-js-tache-nom]");
+        const elImportance = elP.querySelector("[data-js-tache-importance]");
+       
+        elTache.textContent = elTache.textContent.replaceAll("{{TACHE}}", this.#tache);
+        elImportance.textContent = elImportance.textContent.replaceAll("{{IMPORTANCE}}", this.#importance);
+        tacheContent.setAttribute('data-js-task', this.#id);
+        tacheContent.setAttribute('data-js-importance', this.#importance);
+
         //injecter dans la liste
+        this.#listeHTML.appendChild(clone);
+   
     }
 
     afficherDetail(){
