@@ -1,21 +1,31 @@
 import Tache from "./Tache.js";
-//import Routeur from "./Routeur";
+import Routeur from "./Routeur.js";
+import Formulaire from "./Formulaire.js";
 export default class GestionnaireTaches {
+    
     constructor() {
-        //Patron de conception singleton
+        
+        this.liste = document.querySelector("[data-js-tasks]");
+        this.init();
+        this.router = new Routeur();
+        
+    }
+
+    init() {
+                //Patron de conception singleton
         if (GestionnaireTaches.instance == null) {
             GestionnaireTaches.instance = this;
         } else {
-            console.error("Un seul gestionnaire possible");
+            throw new Error("Un seul gestionnaire possible")
         }
-        this.liste = document.querySelector("[data-js-tasks]");
 
         //new Tache (1, "", "", this.liste )
         window.addEventListener("load", this.recupererTacheBDD.bind(this));
-        
+        new Formulaire();
     }
-    init() {
-        
+
+    afficherAccueil() {
+        this.liste.innerHTML = "";
     }
 
     async recupererTacheBDD() {
@@ -29,11 +39,9 @@ export default class GestionnaireTaches {
             
             if (listeTache.length > 0) {
                 listeTache.forEach(element => {
-
                     const ajoutTache = new Tache(element.id, element.tache, element.description, element.importance, this.liste);
                     ajoutTache.injecterHTML();
                 });
-                
             }
             ////const dsds = new Tache();
             ////dsds.afficherDetail();
@@ -43,8 +51,6 @@ export default class GestionnaireTaches {
         }
     }
 
-    afficherAccueil() {
-        console.log("accueil");
-    }
+
 
 }

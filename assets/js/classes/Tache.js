@@ -48,10 +48,14 @@ export default class Tache{
 
     afficherDetail(){
         //cloner le content de #templateDetail
+        const clone = this.#templateDetail.content.cloneNode(true);
+
         //modifier le contenu avec replace all
+        const tacheContent = clone.querySelector("[data-js-task-detail]");
+        //const 
         //injecter dans la section du detail
     }
-
+        
     supprimerTache(){
         //supprimer de la base de donnée ave fetch
         //quand c'est supprimé, on supprime #elementHTML remove
