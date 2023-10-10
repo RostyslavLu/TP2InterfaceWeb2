@@ -22,8 +22,7 @@ export default class Formulaire{
         })
     }
     async ajouterTaskBDD(tache){
-        //const tache = {task, description, niveaux};
-        console.log(tache);
+
         const config = {
             method: "post",
             headers: {
@@ -31,19 +30,20 @@ export default class Formulaire{
             },
             body: JSON.stringify(tache),
         };
-        console.log(config);
+
         const url = "api/taches/ajouterUn.php";
         
         const reponse = await fetch(url, config);
         const message = await reponse.json();
-        console.log(reponse);
-        console.log(message);
-        
+
+        this.resetFormulaire();
+
+        GestionnaireTaches.instance.recupererTacheBDD();
+    }
+    resetFormulaire(){
         this.#formulaire.task.value = "";
         this.#formulaire.description.value = "";
         let importance = this.#formulaire.querySelectorAll('[type="radio"]');
         importance.forEach((element) => element.checked = false);
-
-        GestionnaireTaches.instance.recupererTacheBDD();
     }
 }

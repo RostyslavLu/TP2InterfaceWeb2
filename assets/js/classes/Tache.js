@@ -43,6 +43,10 @@ export default class Tache{
 
         //injecter dans la liste
         this.#listeHTML.appendChild(clone);
+        const btnDetails = this.#listeHTML.querySelector('[data-js-action="show"]');
+        const btnSupprimer = this.#listeHTML.querySelector('[data-js-action="delete"]');
+        console.log(btnDetails);
+        console.log(btnSupprimer);
    
     }
 

@@ -8,11 +8,11 @@ export default class GestionnaireTaches {
         this.liste = document.querySelector("[data-js-tasks]");
         this.init();
         this.router = new Routeur();
-        
+        console.log(this.router);
     }
 
     init() {
-                //Patron de conception singleton
+        //Patron de conception singleton
         if (GestionnaireTaches.instance == null) {
             GestionnaireTaches.instance = this;
         } else {
