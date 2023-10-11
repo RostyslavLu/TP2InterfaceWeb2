@@ -4,11 +4,10 @@ import Formulaire from "./Formulaire.js";
 export default class GestionnaireTaches {
     
     constructor() {
-        
         this.liste = document.querySelector("[data-js-tasks]");
         this.init();
         this.router = new Routeur();
-        console.log(this.router);
+        this.tableauTaches = [];
     }
 
     init() {
@@ -39,10 +38,26 @@ export default class GestionnaireTaches {
             
             if (listeTache.length > 0) {
                 listeTache.forEach(element => {
-                    const ajoutTache = new Tache(element.id, element.tache, element.description, element.importance, this.liste);
-                    ajoutTache.injecterHTML();
+                    //
+                    //ajoutTache.injecterHTML();
+                    
+                    const ajout = {
+                        id: element.id,
+                        task: element.tache,
+                        description: element.description,
+                        importance: element.importance,
+                    }
+                    this.tableauTaches.push(ajout);
+                    
                 });
+
             }
+                this.tableauTaches.forEach(element => {
+                    const ajoutTache = new Tache(element.id, element.task, element.description, element.importance, this.liste);
+                    ajoutTache.injecterHTML();
+                })
+
+            
             ////const dsds = new Tache();
             ////dsds.afficherDetail();
             //on garde une copie de taches
@@ -50,6 +65,19 @@ export default class GestionnaireTaches {
             this.afficherAccueil();
         }
     }
+    ajouterTache(tache, id){
+
+        const ajout = {
+            id: id,
+            task: tache.task,
+            description: tache.description,
+            importance: tache.importance,
+        }
+        this.tableauTaches.push(ajout);
+        const nouvelleTache = new Tache(id, tache.task, tache.description, tache.niveaux);
+        nouvelleTache.injecterHTML();
+    }
+
 
 
 

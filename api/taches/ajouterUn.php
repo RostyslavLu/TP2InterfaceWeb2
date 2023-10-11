@@ -21,10 +21,10 @@ try {
 
     $requete = "INSERT INTO taches (tache, description, importance) VALUES ('$tache','$description','$importance')";
     $stmt = $connexion->prepare($requete);
-
     if ($stmt->execute()) {
         $id = $connexion->insert_id;
-        $message = array("message" => "Le tache $tache a été ajouté avec le id: $id");
+
+        $message = array("message" => $id);
         echo json_encode($message);
 
         $stmt->close();

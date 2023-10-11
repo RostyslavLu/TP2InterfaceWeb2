@@ -17,6 +17,7 @@ export default class Formulaire{
                 description: this.#formulaire.description.value,
                 niveaux: this.#formulaire.importance.value,
             };
+
             this.ajouterTaskBDD(tache);
 
         })
@@ -34,11 +35,11 @@ export default class Formulaire{
         const url = "api/taches/ajouterUn.php";
         
         const reponse = await fetch(url, config);
-        const message = await reponse.json();
-
+        const id = await reponse.json();
+        
         this.resetFormulaire();
-
-        GestionnaireTaches.instance.recupererTacheBDD();
+        
+        GestionnaireTaches.instance.ajouterTache(tache, id);
     }
     resetFormulaire(){
         this.#formulaire.task.value = "";
