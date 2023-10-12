@@ -2,7 +2,7 @@ import Tache from "./Tache.js";
 import Routeur from "./Routeur.js";
 import Formulaire from "./Formulaire.js";
 export default class GestionnaireTaches {
-    
+
     constructor() {
         this.liste = document.querySelector("[data-js-tasks]");
         this.init();
@@ -18,29 +18,34 @@ export default class GestionnaireTaches {
             throw new Error("Un seul gestionnaire possible")
         }
 
-        //new Tache (1, "", "", this.liste )
         window.addEventListener("load", this.recupererTacheBDD.bind(this));
         new Formulaire();
     }
+
+    /**
+     * fonction affichage page d'accueil
+     */
 
     afficherAccueil() {
         this.liste.innerHTML = "";
     }
 
+    /**
+     * fonction pour recuperer les tâches de la base de donnée
+     */
+
     async recupererTacheBDD() {
         //fetch php
         //inctancié les tâches
-        //pour chaque element de la base de donnée  = new Tache()
+        
         try {
             const url = "api/taches/rechercherTout.php";
             const reponse = await fetch(url);
             const listeTache = await reponse.json();
-            
+            //on garde une copie de tâches
             if (listeTache.length > 0) {
                 listeTache.forEach(element => {
-                    //
-                    //ajoutTache.injecterHTML();
-                    
+
                     const ajout = {
                         id: element.id,
                         task: element.tache,
@@ -48,37 +53,40 @@ export default class GestionnaireTaches {
                         importance: element.importance,
                     }
                     this.tableauTaches.push(ajout);
-                    
+
                 });
 
             }
-                this.tableauTaches.forEach(element => {
-                    const ajoutTache = new Tache(element.id, element.task, element.description, element.importance, this.liste);
-                    ajoutTache.injecterHTML();
-                })
+            //pour chaque element de tableau des tâches  = new Tache()
+            this.tableauTaches.forEach(element => {
+                const ajoutTache = new Tache(element.id, element.task, element.description, element.importance, this.liste);
+                ajoutTache.injecterHTML();
+            })
 
-            
-            ////const dsds = new Tache();
-            ////dsds.afficherDetail();
-            //on garde une copie de taches
         } catch (erreur) {
             this.afficherAccueil();
         }
     }
-    ajouterTache(tache, id){
+
+    /**
+     * fonction pour ajouter tâche dans tableau des tâches
+     * @param {*} tache 
+     * @param {*} id 
+     */
+
+    ajouterTache(tache, id) {
 
         const ajout = {
-            id: id,
+            id: id.message,
             task: tache.task,
             description: tache.description,
             importance: tache.importance,
         }
+
         this.tableauTaches.push(ajout);
-        const nouvelleTache = new Tache(id, tache.task, tache.description, tache.niveaux);
+
+        const nouvelleTache = new Tache(id.message, tache.task, tache.description, tache.niveaux, this.liste);
         nouvelleTache.injecterHTML();
     }
-
-
-
 
 }

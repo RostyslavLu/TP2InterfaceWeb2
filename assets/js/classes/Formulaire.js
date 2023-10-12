@@ -4,8 +4,6 @@ export default class Formulaire{
     
     constructor(){
         this.#formulaire = document.querySelector("[data-js-form]");
-        
-
         this.init();
     }
     init(){
@@ -22,6 +20,10 @@ export default class Formulaire{
 
         })
     }
+    /**
+     * fonction pour ajouter tâche a la base de donnée
+     * @param {*} tache 
+     */
     async ajouterTaskBDD(tache){
 
         const config = {
@@ -41,10 +43,15 @@ export default class Formulaire{
         
         GestionnaireTaches.instance.ajouterTache(tache, id);
     }
+    /**
+     * fonction pour met à zéro les inputs des formulaire
+     */
     resetFormulaire(){
+
         this.#formulaire.task.value = "";
         this.#formulaire.description.value = "";
         let importance = this.#formulaire.querySelectorAll('[type="radio"]');
         importance.forEach((element) => element.checked = false);
+
     }
 }
