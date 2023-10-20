@@ -54,19 +54,16 @@ export default class Routeur {
             id = history.state.id;
           
         }
-
         //on récupère le id sinon appelle la page d'accueil
+        //si id le gestionnaire trouve la bonne tâche dans sa liste et appelle la fonction afficherDetail
         const routeFinale = this.routes[hash] || this.routes["/"];
-        
+        console.log(hash);
         if (id) {
             routeFinale(id);
             console.log(id);
         } else {
             routeFinale();
         }
-
-
-        //si id le gestionnaire trouve la bonne tâche dans sa liste et appelle la fonction afficherDetail
 
     }
 
