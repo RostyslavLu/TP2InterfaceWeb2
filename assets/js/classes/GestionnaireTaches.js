@@ -124,30 +124,31 @@ export default class GestionnaireTaches {
         //trouver la tâche courante par son id
         const currentTask = this.tableauTaches.find(element => element.id == id);
         
-        //cloner le content de #templateDetail
-        const cloneDetail = this.#templateDetail.content.cloneNode(true);
-        const tacheDetails = cloneDetail.querySelector(".detail__info");
-        tacheDetails.setAttribute('data-id', id);
-        const elsP = tacheDetails.querySelectorAll("p");
-        //condition pour afficher "Aucun description disponible" si la description est vide
-        if (!currentTask.description) {
-            currentTask.description = "Aucun description disponible";
-        }
-        //modifier le contenu avec replace all
-        elsP.forEach(element => {
-            element.textContent = element.textContent.replace("{{TACHE}}", currentTask.task);
-            element.textContent = element.textContent.replace("{{DESCRIPTION}}", currentTask.description);
-            element.textContent = element.textContent.replace("{{IMPORTANCE}}", currentTask.importance);
-        });
-        // -- injecter dans la section du detail
-        //condition pour supprimer les détails d'une tâche qui a été supprimée de la liste des tâches
-        if (this.#elementHTML.hasChildNodes()) {
-            this.#elementHTML.innerHTML = "";
-            this.#elementHTML.appendChild(tacheDetails);
-        } else {
-
-            this.#elementHTML.appendChild(tacheDetails);
-            this.#elementHTML.style.display = "block"
+        if (currentTask) {
+            //cloner le content de #templateDetail
+            const cloneDetail = this.#templateDetail.content.cloneNode(true);
+            const tacheDetails = cloneDetail.querySelector(".detail__info");
+            tacheDetails.setAttribute('data-id', id);
+            const elsP = tacheDetails.querySelectorAll("p");
+            //condition pour afficher "Aucun description disponible" si la description est vide
+            if (!currentTask.description) {
+                currentTask.description = "Aucun description disponible";
+            }
+            //modifier le contenu avec replace all
+            elsP.forEach(element => {
+                element.textContent = element.textContent.replace("{{TACHE}}", currentTask.task);
+                element.textContent = element.textContent.replace("{{DESCRIPTION}}", currentTask.description);
+                element.textContent = element.textContent.replace("{{IMPORTANCE}}", currentTask.importance);
+            });
+            // -- injecter dans la section du detail
+            //condition pour supprimer les détails d'une tâche qui a été supprimée de la liste des tâches
+            if (this.#elementHTML.hasChildNodes()) {
+                this.#elementHTML.innerHTML = "";
+                this.#elementHTML.appendChild(tacheDetails);
+            } else {
+                this.#elementHTML.appendChild(tacheDetails);
+                this.#elementHTML.style.display = "block"
+            }
         }
     }
 

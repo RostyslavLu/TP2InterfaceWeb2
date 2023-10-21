@@ -13,7 +13,7 @@ export default class Routeur {
     }
 
     init() {
-
+        
         //écouter au clic de la liste, on change l'url avec # et on appelle gererURL
         document.addEventListener("click", function (evenement) {
             evenement.PreventDefault;
@@ -41,9 +41,7 @@ export default class Routeur {
         let hash = location.hash.slice(1),
             route,
             id;
-        if (hash.endsWith("/")) {
-            hash = hash.slice(0, -1);
-        }
+
         // on récupère la route et l'id
         const fragments = hash.split("/");
         route = fragments[0];

@@ -35,7 +35,6 @@ export default class Filtres{
         GestionnaireTaches.instance.tableauTaches.forEach(element => {
             
             const ajoutTache = new Tache(element.id, element.task, element.description, element.importance, this.liste);
-            console.log(ajoutTache);
             ajoutTache.injecterHTML();
         });
     }
