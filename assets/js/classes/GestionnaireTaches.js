@@ -102,10 +102,15 @@ export default class GestionnaireTaches {
         const nouvelleTache = new Tache(id.message, tache.task, tache.description, tache.niveaux, this.liste);
         nouvelleTache.injecterHTML();
 
-
     }
-    ///afficherDetail
+
+    /**
+     * fonction pour afficher les détails d'une tâche par son id
+     * @param {*} id 
+     */
+
     afficherDetail(id) {
+        console.log(id);
         const currentTask = this.tableauTaches.find(element => element.id == id);
         
         //cloner le content de #templateDetail
@@ -128,7 +133,7 @@ export default class GestionnaireTaches {
             this.#elementHTML.innerHTML = "";
             this.#elementHTML.appendChild(tacheDetails);
         } else {
-            //console.log("non");
+
             this.#elementHTML.appendChild(tacheDetails);
         }
     }

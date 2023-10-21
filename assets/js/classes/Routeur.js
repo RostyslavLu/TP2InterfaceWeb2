@@ -6,11 +6,9 @@ export default class Routeur {
 
         this.routes = {
             "/": GestionnaireTaches.instance.afficherAccueil.bind(GestionnaireTaches.instance),
-            "taches/id": GestionnaireTaches.instance.afficherDetail.bind(GestionnaireTaches.instance), 
+            "taches/:id": GestionnaireTaches.instance.afficherDetail.bind(GestionnaireTaches.instance),
         };
 
-        //const tableau = GestionnaireTaches.instance.tableauTaches;
-        //tableau[0].supprimerTache()
         this.init();
     }
 
@@ -21,11 +19,10 @@ export default class Routeur {
             evenement.PreventDefault;
             if (evenement.target.closest('[data-js-action="show"]')) {
                 const id = evenement.target.closest("[data-js-task]").dataset.jsTask;
+                const href = `#taches/${id}`;
 
-                let href = `#taches/id`;
-
-                history.pushState({ id: id }, null, href);
-                console.log(history.state);
+                window.location = href;
+                
                 this.gererURL();
             }
         }.bind(this))
@@ -43,26 +40,26 @@ export default class Routeur {
     }
 
     gererURL() {
-        //on récupère le hash
-
-        const hash = location.hash.slice(1) || "/";
-        const fragments = hash.split("/");
-        let id;
-
-        if (fragments[1] !== "" && fragments[1] !== undefined) {
-            // id=?
-            id = history.state.id;
-          
+        // on récupère le hash
+        let hash = location.hash.slice(1),
+            route,
+            id;
+        if (hash.endsWith("/")) {
+            hash = hash.slice(0, -1);
         }
-        //on récupère le id sinon appelle la page d'accueil
-        //si id le gestionnaire trouve la bonne tâche dans sa liste et appelle la fonction afficherDetail
-        const routeFinale = this.routes[hash] || this.routes["/"];
-        console.log(hash);
-        if (id) {
-            routeFinale(id);
-            console.log(id);
+        // on récupère la route et l'id
+        const fragments = hash.split("/");
+        route = fragments[0];
+        id = fragments[1];
+
+        // on appelle la methode de la route
+        // si id est défini on appelle la route avec l'id sinon on appelle la route par défaut
+        if (id !== undefined) {
+            this.routes[`${route}/:id`](id);
+        } else if (this.routes[route]) {
+            this.routes[route]();
         } else {
-            routeFinale();
+            this.routes["/"]();
         }
 
     }

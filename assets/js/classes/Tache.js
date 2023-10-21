@@ -8,7 +8,7 @@ export default class Tache {
     #importance;
     #listeHTML;
     #templateTache;
-    //#templateDetail;
+
     #elementHTML;
 
     constructor(id, tache, description, importance, listeHTML) {
@@ -20,7 +20,6 @@ export default class Tache {
         this.#listeHTML = GestionnaireTaches.instance.liste;
 
         this.#templateTache = document.querySelector("[data-js-task-template]");
-        //this.#templateDetail = document.querySelector("[data-js-task-detail-template]");
         this.#elementHTML = document.querySelector("[data-js-task-detail]");
     }
 
@@ -51,18 +50,17 @@ export default class Tache {
 
         this.#listeHTML.appendChild(clone);
 
-        // boutons "afficher details" et "effacer"
-        //const btnDetails = tacheContent.querySelector('[data-js-action="show"]');
+        // bouton "afficher "effacer"
         const btnSupprimer = tacheContent.querySelector('[data-js-action="delete"]');
 
-
-        //btnDetails.addEventListener("click", this.afficherDetail.bind(this));
+        // écouter l'événement click sur le bouton "effacer"
         btnSupprimer.addEventListener("click", this.supprimerTache.bind(this));
 
     }
 
     /**
-     * fonction pour afficher details de tâche
+     * fonction pour supprimer une tâche
+     * @param {*} id 
      */
 
     async supprimerTache(id) {
@@ -77,6 +75,8 @@ export default class Tache {
         const corps = {
             id: this.#id,
         }
+
+        //suppression la tâche de la liste
         const elASupprime = id.srcElement.closest("[data-js-task]");
         elASupprime.remove();
         const config = {
