@@ -4,7 +4,12 @@ export default class ValidationFormulaire{
     // }
     static estVide(champFormulaire){
         let estVide = champFormulaire == "";
+        
         return estVide;
     }
-    //autres validation au besoin
+    static estRadioSelectionne(inputName) {
+        const radioButtons = document.querySelectorAll(`input[name="${inputName}"]`);
+        return [...radioButtons].some((radio) => radio.checked);
+      }
+    
 }

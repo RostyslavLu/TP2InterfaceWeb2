@@ -20,16 +20,13 @@ export default class Routeur {
             if (evenement.target.closest('[data-js-action="show"]')) {
                 const id = evenement.target.closest("[data-js-task]").dataset.jsTask;
                 const href = `#taches/${id}`;
-
                 window.location = href;
-                
                 this.gererURL();
             }
         }.bind(this))
 
         // événement pour le chargement de hash dans url
         window.addEventListener("hashchange", function () {
-            console.log(`The current URL hash is ${location.hash}`);
             this.gererURL();
         }.bind(this));
 

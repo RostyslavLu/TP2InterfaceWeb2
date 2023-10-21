@@ -1,4 +1,5 @@
 import GestionnaireTaches from "./GestionnaireTaches.js";
+import ValidationFormulaire from "./ValidationFormulaire.js";
 export default class Formulaire{
     #formulaire;
     
@@ -15,8 +16,12 @@ export default class Formulaire{
                 description: this.#formulaire.description.value,
                 niveaux: this.#formulaire.importance.value,
             };
-
-            this.ajouterTaskBDD(tache);
+            // validation formulaire
+            if (!ValidationFormulaire.estVide(tache.task) && ValidationFormulaire.estRadioSelectionne("importance")) {
+                this.ajouterTaskBDD(tache);
+            } else {
+                this.error();
+            }
 
         })
     }
@@ -46,12 +51,18 @@ export default class Formulaire{
     /**
      * fonction pour met à zéro les inputs des formulaire
      */
+
     resetFormulaire(){
 
         this.#formulaire.task.value = "";
         this.#formulaire.description.value = "";
         let importance = this.#formulaire.querySelectorAll('[type="radio"]');
         importance.forEach((element) => element.checked = false);
+        this.#formulaire.classList.remove("error");
 
+    }
+    error(){
+
+        this.#formulaire.classList.add("error");
     }
 }

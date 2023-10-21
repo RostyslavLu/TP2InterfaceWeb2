@@ -1,6 +1,7 @@
 import Tache from "./Tache.js";
 import Routeur from "./Routeur.js";
 import Formulaire from "./Formulaire.js";
+import Filtres from "./Filtres.js";
 export default class GestionnaireTaches {
     #templateDetail;
     #elementHTML;
@@ -10,12 +11,21 @@ export default class GestionnaireTaches {
         this.tableauTaches = [];
         this.#templateDetail = document.querySelector("[data-js-task-detail-template]");
         this.#elementHTML = document.querySelector("[data-js-task-detail]");
-        this.init();
+        this.btnChevron = document.querySelector('[data-js-chevron]');
 
+        this.init();
     }
 
     init() {
-
+        this.btnChevron.addEventListener("click", function () {
+            if (this.#elementHTML.style.display == "none") {
+                this.#elementHTML.style.display = "block"
+            } else {
+                this.#elementHTML.style.display = "none"
+            }
+            //console.log(this.#elementHTML.style.display="block");
+            //console.log(this.#elementHTML.style.display);
+        }.bind(this));
         //Patron de conception singleton
         if (GestionnaireTaches.instance == null) {
             GestionnaireTaches.instance = this;
@@ -25,6 +35,7 @@ export default class GestionnaireTaches {
         }
         this.router = new Routeur();
         new Formulaire();
+        new Filtres();
     }
 
     /**
@@ -94,9 +105,9 @@ export default class GestionnaireTaches {
             id: id.message,
             task: tache.task,
             description: tache.description,
-            importance: tache.importance,
+            importance: tache.niveaux,
         }
-
+        //ajouter la tâche dans le tableau des tâches
         this.tableauTaches.push(ajout);
 
         const nouvelleTache = new Tache(id.message, tache.task, tache.description, tache.niveaux, this.liste);
@@ -110,7 +121,7 @@ export default class GestionnaireTaches {
      */
 
     afficherDetail(id) {
-        console.log(id);
+        //trouver la tâche courante par son id
         const currentTask = this.tableauTaches.find(element => element.id == id);
         
         //cloner le content de #templateDetail
@@ -118,6 +129,7 @@ export default class GestionnaireTaches {
         const tacheDetails = cloneDetail.querySelector(".detail__info");
         tacheDetails.setAttribute('data-id', id);
         const elsP = tacheDetails.querySelectorAll("p");
+        //condition pour afficher "Aucun description disponible" si la description est vide
         if (!currentTask.description) {
             currentTask.description = "Aucun description disponible";
         }
@@ -135,6 +147,7 @@ export default class GestionnaireTaches {
         } else {
 
             this.#elementHTML.appendChild(tacheDetails);
+            this.#elementHTML.style.display = "block"
         }
     }
 

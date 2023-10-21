@@ -161,3 +161,6 @@ input.error {
 .chevron--top:before {
     transform: rotate(-45deg);
 }
+[data-js-task-detail] {
+    display: none;
+}
